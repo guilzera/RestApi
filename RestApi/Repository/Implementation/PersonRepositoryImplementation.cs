@@ -5,13 +5,13 @@ using System.Linq;
 using System;
 using RestApi.Services;
 
-namespace RestApi.Services.Implementation
+namespace RestApi.Repository.Implementation
 {
-    public class PersonServiceImplementation : IPersonService
+    public class PersonRepositoryImplementation : IPersonRepository
     {
         private readonly RestApiContext _context;
 
-        public PersonServiceImplementation(RestApiContext context)
+        public PersonRepositoryImplementation(RestApiContext context)
         {
             _context = context;
         }
@@ -83,7 +83,7 @@ namespace RestApi.Services.Implementation
                 }
             }
         }
-        private bool Exists(int id)
+        public bool Exists(int id)
         {
             return _context.Persons.Any(x => x.Id.Equals(id));
         }

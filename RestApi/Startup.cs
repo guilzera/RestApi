@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using RestApi.Data;
+using RestApi.Repository.Implementation;
 using RestApi.Services;
 using RestApi.Services.Implementation;
 using System;
