@@ -35,22 +35,17 @@ namespace RestApi.Repository.Implementation
             }
             catch (Exception)
             {
-
                 throw;
             }
-
             return person;
         }
 
         public Person Update(Person person)
         {
-            if (!Exists(person.Id))
-            {
-                return new Person();
-            }
+            if (!Exists(person.Id)) return null;
 
-            var result = _context.Persons.SingleOrDefault(x => x.Id.Equals(person.Id));
-            if(result != null)
+            var result = _context.Persons.SingleOrDefault(p => p.Id.Equals(person.Id));
+            if (result != null)
             {
                 try
                 {
@@ -59,7 +54,6 @@ namespace RestApi.Repository.Implementation
                 }
                 catch (Exception)
                 {
-
                     throw;
                 }
             }
@@ -68,8 +62,8 @@ namespace RestApi.Repository.Implementation
 
         public void Delete(int id)
         {
-            var result = _context.Persons.SingleOrDefault(x => x.Id.Equals(id));
-            if(result == null)
+            var result = _context.Persons.SingleOrDefault(p => p.Id.Equals(id));
+            if (result != null)
             {
                 try
                 {
@@ -78,14 +72,13 @@ namespace RestApi.Repository.Implementation
                 }
                 catch (Exception)
                 {
-
                     throw;
                 }
             }
         }
         public bool Exists(int id)
         {
-            return _context.Persons.Any(x => x.Id.Equals(id));
+            return _context.Persons.Any(p => p.Id.Equals(id));
         }
     }
 }

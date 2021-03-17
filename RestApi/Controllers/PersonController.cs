@@ -56,7 +56,7 @@ namespace RestApi.Controllers
             return Ok(_personService.Update(person));
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             _personService.Delete(id);
