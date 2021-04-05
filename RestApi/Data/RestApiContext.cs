@@ -16,5 +16,7 @@ namespace RestApi.Data
         }
 
         public DbSet<Models.Person> Persons { get; set; }
+        public DbSet<Models.Book> Books { get; set; }
+
     }
 }
