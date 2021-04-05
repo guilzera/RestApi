@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
-using RestApi.Models;
-namespace RestApi.Repository
+﻿using RestApi.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace RestApi.Services
 {
     public interface IBookService
     {

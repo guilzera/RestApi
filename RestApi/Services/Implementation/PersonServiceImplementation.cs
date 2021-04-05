@@ -1,14 +1,17 @@
 ﻿using RestApi.Models;
-using System.Collections.Generic;
 using RestApi.Repository;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace RestApi.Services.Implementation
 {
     public class PersonServiceImplementation : IPersonService
     {
-        private readonly IPersonRepository _repository;
+        private readonly IRepository<Person> _repository;
 
-        public PersonServiceImplementation(IPersonRepository repository)
+        public PersonServiceImplementation(IRepository<Person> repository)
         {
             _repository = repository;
         }

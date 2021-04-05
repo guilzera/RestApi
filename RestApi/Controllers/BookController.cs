@@ -2,6 +2,7 @@
 using RestApi.Repository;
 using Microsoft.Extensions.Logging;
 using RestApi.Models;
+using RestApi.Services;
 
 namespace RestApi.Controllers
 {

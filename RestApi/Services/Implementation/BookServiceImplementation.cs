@@ -1,5 +1,4 @@
-﻿using RestApi.Data;
-using RestApi.Models;
+﻿using RestApi.Models;
 using RestApi.Repository;
 using System;
 using System.Collections.Generic;
@@ -8,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace RestApi.Services.Implementation
 {
-    public class BookServiceImplementation : IBookService
+    public class BookServiceImplementation :IBookService
     {
-        private readonly IBookRepository _repository;
+        private readonly IRepository<Book> _repository;
 
-        public BookServiceImplementation(IBookRepository repository)
+        public BookServiceImplementation(IRepository<Book> repository)
         {
             _repository = repository;
         }
