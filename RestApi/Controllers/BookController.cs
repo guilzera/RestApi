@@ -3,6 +3,7 @@ using RestApi.Repository;
 using Microsoft.Extensions.Logging;
 using RestApi.Models;
 using RestApi.Services;
+using RestApi.Dato.VO;
 
 namespace RestApi.Controllers
 {
@@ -38,7 +39,7 @@ namespace RestApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Book book)
+        public IActionResult Post([FromBody] BookVO book)
         {
             if (book == null)
             {
@@ -48,7 +49,7 @@ namespace RestApi.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody] Book book)
+        public IActionResult Put([FromBody] BookVO book)
         {
             if (book == null)
             {

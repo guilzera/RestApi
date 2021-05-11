@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
-using RestApi.Models;
+using RestApi.Dato.VO;
 
 namespace RestApi.Services
 {
     public interface IPersonService
     {
-        Person Create(Person person);
-        Person FindById(int id);
-        List<Person> FindAll();
-        Person Update(Person person);
+        PersonVO Create(PersonVO person);
+        PersonVO FindById(int id);
+        List<PersonVO> FindAll();
+        PersonVO Update(PersonVO person);
         void Delete(int id);
     }
 }
