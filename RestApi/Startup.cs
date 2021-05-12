@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using RestApi.Data;
 using RestApi.Repository;
@@ -34,6 +36,15 @@ namespace RestApi
             services.AddDbContext<RestApiContext>(options =>
             options.UseMySql(Configuration.GetConnectionString("RestApiContext"), builder =>
             builder.MigrationsAssembly("RestApi")));
+
+            services.AddMvc(options =>
+            {
+                options.RespectBrowserAcceptHeader = true;
+                options.FormatterMappings.SetMediaTypeMappingForFormat("json", MediaTypeHeaderValue.Parse("Application/json"));
+                options.FormatterMappings.SetMediaTypeMappingForFormat("xml", MediaTypeHeaderValue.Parse("Application/xml"));
+
+            })
+                .AddXmlSerializerFormatters();
 
             services.AddApiVersioning();
             services.AddScoped<IPersonService, PersonServiceImplementation>();

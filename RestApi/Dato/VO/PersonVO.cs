@@ -1,4 +1,6 @@
-﻿namespace RestApi.Dato.VO
+﻿using System.Text.Json.Serialization;
+
+namespace RestApi.Dato.VO
 {
     public class PersonVO
     {
