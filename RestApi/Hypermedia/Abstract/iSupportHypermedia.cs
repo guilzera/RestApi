@@ -2,7 +2,7 @@
 
 namespace RestApi.Hypermedia.Abstract
 {
-    public interface iSupportHyperMedia
+    public interface ISupportHyperMedia
     {
         List<HyperMediaLink> Links { get; set; }
     }
