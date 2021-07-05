@@ -9,8 +9,8 @@ namespace RestApi.Hypermedia
     public class HyperMediaLink
     {
         public string Rel { get; set; }
-        public string href;
-        private string Href
+        private string href;
+        public string Href
         {
             get
             {
