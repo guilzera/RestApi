@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace RestApi.Hypermedia
 {
-    public abstract class ContentResponseEnricher<T> : IResponseEnricher where T : ISupportHyperMedia
+    public abstract class ContentResponseEnricher<T> : IResponseEnricher where T : ISupportsHyperMedia
     {
         public ContentResponseEnricher()
         {
-        }
 
-        public bool CanEnrich(Type contentType)
+        }
+        public virtual bool CanEnrich(Type contentType)
         {
             return contentType == typeof(T) || contentType == typeof(List<T>);
         }
@@ -30,7 +30,6 @@ namespace RestApi.Hypermedia
             }
             return false;
         }
-
         public async Task Enrich(ResultExecutingContext response)
         {
             var urlHelper = new UrlHelperFactory().GetUrlHelper(response);
@@ -48,8 +47,8 @@ namespace RestApi.Hypermedia
                         EnrichModel(element, urlHelper);
                     });
                 }
-                await Task.FromResult<object>(null);
             }
+            await Task.FromResult<object>(null);
         }
     }
 }

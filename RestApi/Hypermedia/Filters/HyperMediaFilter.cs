@@ -16,18 +16,19 @@ namespace RestApi.Hypermedia.Filters
 
         public override void OnResultExecuting(ResultExecutingContext context)
         {
-            TryEnricheResult(context);
+            TryEnrichResult(context);
             base.OnResultExecuting(context);
         }
 
-        private void TryEnricheResult(ResultExecutingContext context)
+        private void TryEnrichResult(ResultExecutingContext context)
         {
-            if(context.Result is OkObjectResult objectResult)
+            if (context.Result is OkObjectResult objectResult)
             {
-                var enricher = _hyperMediaFilterOptions.
-                    ContentResponseEnricherList.FirstOrDefault(x => x.CanEnrich(context));
+                var enricher = _hyperMediaFilterOptions
+                    .ContentResponseEnricherList
+                    .FirstOrDefault(x => x.CanEnrich(context));
                 if (enricher != null) Task.FromResult(enricher.Enrich(context));
-            }
+            };
         }
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,15 +9,19 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using RestApi.Data;
+using RestApi.Hypermedia.Enricher;
+using RestApi.Hypermedia.Filters;
 using RestApi.Repository;
 using RestApi.Repository.Generic;
 using RestApi.Services;
 using RestApi.Services.Implementation;
+using System;
 
 namespace RestApi
 {
     public class Startup
     {
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -30,13 +35,22 @@ namespace RestApi
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "RestApi", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "RestApi", 
+                    Version = "v1", 
+                    Description = "API RESTfull",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Guilherme Nascimento",
+                        Url =  new Uri("https://github.com/guilzera")
+                    } 
+                });
             });
 
+            string mySqlConnection = Configuration.GetConnectionString("RestApiContext");
             services.AddDbContext<RestApiContext>(options =>
-            options.UseMySql(Configuration.GetConnectionString("RestApiContext"), builder =>
-            builder.MigrationsAssembly("RestApi")));
+            options.UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection)));
 
+            /*
             services.AddMvc(options =>
             {
                 options.RespectBrowserAcceptHeader = true;
@@ -45,8 +59,18 @@ namespace RestApi
 
             })
                 .AddXmlSerializerFormatters();
+            */
 
+            var filterOptinos = new HyperMediaFilterOptions();
+            filterOptinos.ContentResponseEnricherList.Add(new PersonEnricher()); 
+            filterOptinos.ContentResponseEnricherList.Add(new BookEnricher());
+
+            services.AddSingleton(filterOptinos);
+
+            //versionamento API
             services.AddApiVersioning();
+
+            //Injeção de Dependência
             services.AddScoped<IPersonService, PersonServiceImplementation>();
             services.AddScoped<IBookService, BookServiceImplementation>();
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
@@ -62,6 +86,10 @@ namespace RestApi
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "RestApi v1"));
             }
 
+            var option = new RewriteOptions();
+            option.AddRedirect("^$", "swagger");
+            app.UseRewriter(option);
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -71,6 +99,7 @@ namespace RestApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapControllerRoute("DefaultApi", "{controller=values}/{id?}");
             });
         }
     }

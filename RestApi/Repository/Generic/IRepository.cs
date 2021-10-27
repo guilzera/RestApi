@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using RestApi.Models;
 using RestApi.Models.Base;
 
 namespace RestApi.Repository

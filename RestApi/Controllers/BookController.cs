@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RestApi.Repository;
 using Microsoft.Extensions.Logging;
-using RestApi.Models;
 using RestApi.Services;
 using RestApi.Dato.VO;
+using RestApi.Hypermedia.Filters;
 
 namespace RestApi.Controllers
 {
@@ -22,12 +21,14 @@ namespace RestApi.Controllers
         }
 
         [HttpGet]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Get()
         {
             return Ok(_bookService.FindAll());
         }
 
         [HttpGet("{id}")]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Get(int id)
         {
             var book = _bookService.FindById(id);
@@ -39,6 +40,7 @@ namespace RestApi.Controllers
         }
 
         [HttpPost]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Post([FromBody] BookVO book)
         {
             if (book == null)
@@ -49,6 +51,7 @@ namespace RestApi.Controllers
         }
 
         [HttpPut]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Put([FromBody] BookVO book)
         {
             if (book == null)
